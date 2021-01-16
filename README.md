@@ -1,57 +1,51 @@
 ## usersテーブル
-|Column           |Type     |Options    |
-|-----------------|---------|-----------|
-|nickname         |string   |null: false|
-|email            |string   |null: false|
-|password         |string   |null: false|
-|familyName       |string   |null: false|
-|firstName        |string   |null: false|
-|familyNameKana   |string   |null: false|
-|firstNameKana    |string   |null: false|
-|birthYear        |integer  |null: false|
-|birthMonth       |integer  |null: false|
-|birthDay         |integer  |null: false|
+|Column            |Type     |Options    |
+|----------------- |---------|-----------|
+|nickname          |string   |null: false|
+|email             |string   |null: false,unique: true|
+|encrypted_password|string   |null: false|
+|family_name       |string   |null: false|
+|first_name        |string   |null: false|
+|family_nameKana   |string   |null: false|
+|first_nameKana    |string   |null: false|
+|birthday          |date     |null: false|
 ### Association
 - has_many :items
-- has_one  :transactions
+- has_one  :addresses
 - has_many :comments
+- has_many :purchases
 
 ## itemsテーブル
-|Column            |Type     |Options    |
-|------------------|---------|-----------|
-|image             |         |           |
-|name              |text     |null: false|
-|explanation       |text     |null: false|
-|category          |string   |null: false|
-|Status            |string   |null: false|
-|shippingCharge    |string   |null: false|
-|dispatchArea      |string   |null: false|
-|shippingDuration  |integer  |null: false|
-|price             |integer  |null : true|
-|user              |reference|           |
-|transaction       |reference|           |
+|Column              |Type     |Options    |
+|------------------  |---------|-----------|
+|name                |string   |null: false|
+|explanation         |text     |null: false|
+|category            |string   |null: false|
+|status              |string   |null: false|
+|shipping_charge_id  |integer  |null: false|
+|dispatch_area_id    |integer  |null: false|
+|shipping_duration_id|integer  |null: false|
+|price               |integer  |null: false|
+|user                |reference|           |
 ### Association
-- belongs_to :user
+- belongs_to :users
 - has_many   :comments
-- has_one    :transactions
+- has_one    :addresses
+- has_one    :purchases
 
-## transactionsテーブル
+## addressesテーブル
 |Column            |Type     |Options    |
 |------------------|---------|-----------|
-|creditCardNumber  |integer  |null: false|
-|expireMonth       |integer  |null: false|
-|expireYear        |integer  |null: false|
-|securityCode      |integer  |null: false|
-|zipNumber         |integer  |null: false|
-|prefecture        |text     |null: false|
-|city              |text     |null: false|
-|blockNumber       |text     |null: false|
-|buildingName      |text     |null : true|
-|user              |reference|           |
-|item              |reference|           |
+|zip_number        |string   |null: false|
+|dispatch_area_id  |string   |null: false|
+|city              |string   |null: false|
+|block_number      |string   |null: false|
+|building_name     |string   |           |
+|phone_number      |string  |null: false|
 ### Association
 - belongs_to :user
 - belongs_to :transactions
+- has_many :purchases
 
 ## commentsテーブル
 |Column   |Type     |Options    |
@@ -62,3 +56,14 @@
 ### Association
 - belongs_to :users
 - belongs_to :items
+
+## purchasesテーブル
+|Column      |Type     |Options    |
+|------------|---------|-----------|
+|user_id     |integer  |null: false|
+|item_id     |integer  |null: false|
+|address_id  |integer  |null: false|
+### Association
+- belongs_to :users
+- belongs_to :items
+- belongs_to :addresses
