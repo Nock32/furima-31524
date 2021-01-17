@@ -25,7 +25,7 @@
 |dispatch_area_id    |integer  |null: false|
 |shipping_duration_id|integer  |null: false|
 |price               |integer  |null: false|
-|user                |reference|           |
+|user                |reference|foreign_key: true|
 ### Association
 - belongs_to :user
 - has_many   :comments
@@ -40,7 +40,7 @@
 |block_number      |string   |null: false|
 |building_name     |string   |           |
 |phone_number      |string   |null: false|
-|purchases         |reference|           |
+|purchases         |reference|foreign_key: true|
 ### Association
 - belongs_to :purchase
 
@@ -48,8 +48,8 @@
 |Column   |Type     |Options    |
 |------   |---------|-----------|
 |text     |text     |null: false|
-|user     |reference|           |
-|item     |reference|           |
+|user     |reference|foreign_key: true|
+|item     |reference|foreign_key: true|
 ### Association
 - belongs_to :user
 - belongs_to :item
