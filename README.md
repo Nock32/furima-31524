@@ -11,7 +11,6 @@
 |birthday          |date     |null: false|
 ### Association
 - has_many :items
-- has_one  :addresses
 - has_many :comments
 - has_many :purchases
 
@@ -20,18 +19,17 @@
 |------------------  |---------|-----------|
 |name                |string   |null: false|
 |explanation         |text     |null: false|
-|category            |string   |null: false|
-|status              |string   |null: false|
+|category_id         |integer  |null: false|
+|status_id           |integer  |null: false|
 |shipping_charge_id  |integer  |null: false|
 |dispatch_area_id    |integer  |null: false|
 |shipping_duration_id|integer  |null: false|
 |price               |integer  |null: false|
 |user                |reference|           |
 ### Association
-- belongs_to :users
+- belongs_to :user
 - has_many   :comments
-- has_one    :addresses
-- has_one    :purchases
+- has_one    :purchase
 
 ## addressesテーブル
 |Column            |Type     |Options    |
@@ -41,11 +39,10 @@
 |city              |string   |null: false|
 |block_number      |string   |null: false|
 |building_name     |string   |           |
-|phone_number      |string  |null: false|
+|phone_number      |string   |null: false|
+|purchases         |reference|           |
 ### Association
-- belongs_to :user
-- belongs_to :transactions
-- has_many :purchases
+- belongs_to :purchase
 
 ## commentsテーブル
 |Column   |Type     |Options    |
@@ -54,8 +51,8 @@
 |user     |reference|           |
 |item     |reference|           |
 ### Association
-- belongs_to :users
-- belongs_to :items
+- belongs_to :user
+- belongs_to :item
 
 ## purchasesテーブル
 |Column      |Type     |Options    |
@@ -63,5 +60,6 @@
 |user_id     |integer  |null: false|
 |item_id     |integer  |null: false|
 ### Association
-- belongs_to :users
-- belongs_to :items
+- belongs_to :user
+- belongs_to :item
+- has_one    :address
