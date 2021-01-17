@@ -37,7 +37,7 @@
 |Column            |Type     |Options    |
 |------------------|---------|-----------|
 |zip_number        |string   |null: false|
-|dispatch_area_id  |string   |null: false|
+|dispatch_area_id  |integer  |null: false|
 |city              |string   |null: false|
 |block_number      |string   |null: false|
 |building_name     |string   |           |
@@ -62,8 +62,6 @@
 |------------|---------|-----------|
 |user_id     |integer  |null: false|
 |item_id     |integer  |null: false|
-|address_id  |integer  |null: false|
 ### Association
 - belongs_to :users
 - belongs_to :items
-- belongs_to :addresses
