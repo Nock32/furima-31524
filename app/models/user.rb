@@ -8,13 +8,14 @@ class User < ApplicationRecord
   has_many :comments
   has_many :purchases
 
-  # VALID_PASSWORD_REGEX =/\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])\w{6,100}\z/
-  validates :nickname,         presence: true
-  validates :email,            presence: true , uniqueness: true
-  validates :password,         presence: true , length: { minimum: 6 } , format: { with: /\A(?=.*?[a-z])(?=.*?[\d])\w{6}\z/ , message: "は半角英数字それぞれ１文字以上含む必要があります"}
-  validates :family_name,      presence: true 
-  validates :first_name,       presence: true
-  validates :family_name_kana, presence: true
-  validates :first_name_kana,  presence: true
-  validates :birthday,         presence: true
+  with_options presence: true do
+    validates :nickname
+    validates :email,             uniqueness: true
+    validates :password,          length: { minimum: 6 , message: "パスワードは６文字以上入力してください"} , format: { with: /\A[a-zA-Z0-9]+\z/i , message: "は半角アルファベットと数字をそれぞれ１文字以上入力してください"}
+    validates :family_name,       format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "全角ひらがな、全角カタカナ、漢字で入力してください"}
+    validates :first_name,        format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "全角ひらがな、全角カタカナ、漢字で入力してください"}
+    validates :family_name_kana,  format: { with: /\A[ァ-ヶー－]+\z/, message: "カタカナで入力してください"}
+    validates :first_name_kana,  format: { with: /\A[ァ-ヶー－]+\z/, message: "カタカナで入力してください"}
+    validates :birthday
+  end
 end
