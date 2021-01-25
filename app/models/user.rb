@@ -11,7 +11,7 @@ class User < ApplicationRecord
   with_options presence: true do
     validates :nickname
     validates :email,             uniqueness: true
-    validates :password,          length: { minimum: 6 , message: "パスワードは６文字以上入力してください"} , format: { with: /\A[a-zA-Z0-9]+\z/i , message: "は半角アルファベットと数字をそれぞれ１文字以上入力してください"}
+    validates :password,          length: { minimum: 6 , message: "は６文字以上入力してください"} , format: { with: /\A[a-z]+[0-9]+\z/i, message: "は半角アルファベットと数字をそれぞれ１文字以上入力してください"}
     validates :family_name,       format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "全角ひらがな、全角カタカナ、漢字で入力してください"}
     validates :first_name,        format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "全角ひらがな、全角カタカナ、漢字で入力してください"}
     validates :family_name_kana,  format: { with: /\A[ァ-ヶー－]+\z/, message: "カタカナで入力してください"}
