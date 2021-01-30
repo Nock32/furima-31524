@@ -5,7 +5,24 @@ require 'rails_helper'
   end
    
   describe "ユーザー新規登録" do
-    context '内容に問題ある場合' do
+    context "登録内容に問題がない場合" do
+
+      it "必要事項を入力すれば登録できる" do
+        @user.nickname = "aaa"
+        @user.email = "a@yahoo.co.jp"
+        @user.password = "aaa000"
+        @user.password_confirmation = "aaa000"
+        @user.family_name = "ア"
+        @user.first_name = "ア"
+        @user.family_name_kana = "ア"
+        @user.first_name_kana = "ア"
+        @user.birthday = "1930-01-01"
+        expect(@user).to be_valid
+      end
+    end
+
+    context '登録内容に問題ある場合' do
+
       it "nicknameが空だと登録できない" do
       @user.nickname = ""
       @user.valid?
@@ -57,12 +74,12 @@ require 'rails_helper'
       it "名字（カナ）にひらがな登録できない" do
         @user.family_name_kana= "あ"  
         @user.valid?
-        expect(@user.errors.full_messages).to include "Family name kana カタカナで入力してください"
+        expect(@user.errors.full_messages).to include "Family name kana 全角カタカナで入力してください"
       end
       it "名字（カナ）にローマ字登録できない" do
         @user.family_name_kana= "a"  
         @user.valid?
-        expect(@user.errors.full_messages).to include "Family name kana カタカナで入力してください"
+        expect(@user.errors.full_messages).to include "Family name kana 全角カタカナで入力してください"
       end
 
       it "名前（カナ）が空では登録できない" do
@@ -74,13 +91,13 @@ require 'rails_helper'
       it "名前（カナ）にひらがなは登録できない" do
         @user.first_name_kana= "あ"  
         @user.valid?
-        expect(@user.errors.full_messages).to include "First name kana カタカナで入力してください"
+        expect(@user.errors.full_messages).to include "First name kana 全角カタカナで入力してください"
       end
 
       it "名前（カナ）にローマ字は登録できない" do
         @user.first_name_kana= "a"  
         @user.valid?
-        expect(@user.errors.full_messages).to include "First name kana カタカナで入力してください"
+        expect(@user.errors.full_messages).to include "First name kana 全角カタカナで入力してください"
       end
 
       it "誕生日が空では登録できない" do
@@ -111,6 +128,7 @@ require 'rails_helper'
         @user.valid?
         expect(@user.errors.full_messages).to include( "Password は６文字以上入力してください")
       end
+      
     end
 
    end
