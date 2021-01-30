@@ -1,6 +1,7 @@
 require 'rails_helper'
  RSpec.describe User, type: :model do
   before do
+    @other = FactoryBot.build(:user)
     @user = FactoryBot.build(:user)
   end
    
@@ -33,6 +34,19 @@ require 'rails_helper'
       @user.email = ""  
       @user.valid?
       expect(@user.errors.full_messages).to include "Email can't be blank"
+      end
+
+      it "emailに@がなければ登録できない" do
+        @user.email = "a.yahoo.co.jp"  
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Email is invalid"
+        end
+
+      it "同じemailは登録できない" do
+        @other.save
+        @user.email = @other.email  
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Email has already been taken"
       end
 
       it "passwordが空では登録できない" do
@@ -128,7 +142,7 @@ require 'rails_helper'
         @user.valid?
         expect(@user.errors.full_messages).to include( "Password は６文字以上入力してください")
       end
-      
+
     end
 
    end

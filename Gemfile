@@ -61,3 +61,4 @@ group :development do
 end
 gem 'devise'
 gem 'gimei'
+gem 'pry-rails'
