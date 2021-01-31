@@ -9,15 +9,6 @@ require 'rails_helper'
     context "登録内容に問題がない場合" do
 
       it "必要事項を入力すれば登録できる" do
-        @user.nickname = "aaa"
-        @user.email = "a@yahoo.co.jp"
-        @user.password = "aaa000"
-        @user.password_confirmation = "aaa000"
-        @user.family_name = "ア"
-        @user.first_name = "ア"
-        @user.family_name_kana = "ア"
-        @user.first_name_kana = "ア"
-        @user.birthday = "1930-01-01"
         expect(@user).to be_valid
       end
     end
@@ -53,6 +44,13 @@ require 'rails_helper'
       @user.password = ""  
       @user.valid?
       expect(@user.errors.full_messages).to include "Password can't be blank"
+      end
+
+      it "パスワードとパスワード（確認用）、値の一致しない場合は登録できない" do
+        @user.password = "aaa000"
+        @user.password_confirmation = "aaa001"
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
       end
 
       it "名字が空では登録できない" do
