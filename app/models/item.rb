@@ -10,12 +10,13 @@ class Item < ApplicationRecord
   belongs_to :user
   # has_many   :comments
   # has_one    :purchase
-
-  validates :status_id , numericality: { other_than: 1 } 
-  validates :category_id , numericality: { other_than: 1 } 
-  validates :shipping_charge_id, numericality:  { other_than: 1 } 
-  validates :dispatch_area_id , numericality: { other_than: 1 } 
-  validates :shipping_duration_id , numericality: { other_than: 1 }
+  with_options numericality: { other_than: 1 }  do
+    validates :status_id
+    validates :category_id 
+    validates :shipping_charge_id 
+    validates :dispatch_area_id 
+    validates :shipping_duration_id 
+  end
 
   with_options presence: true do
     validates :image
@@ -26,7 +27,7 @@ class Item < ApplicationRecord
     validates :shipping_charge_id
     validates :dispatch_area_id
     validates :shipping_duration_id
-    validates :price, numericality: { only_integer: true ,message: "は数字で入力してください"}
+    validates :price, numericality: { only_integer: true ,message: "は半角数字で入力してください"}
   end
   validates :price, numericality: { greater_than_or_equal_to: 300 , less_than_or_equal_to: 9999999 , message: "は300〜9,999,999円の範囲で入力してください"}
 end

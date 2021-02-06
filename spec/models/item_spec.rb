@@ -86,6 +86,18 @@ require 'rails_helper'
       expect(@item.errors.full_messages).to include "Price can't be blank"
       end
 
+      it "priceに文字列は登録できない" do
+        @item.price = "a"
+        @item.valid?
+        expect(@item.errors.full_messages).to include "Price は半角数字で入力してください"
+        end
+      
+      it "priceに全角数字は登録できない" do
+        @item.price = "０"  
+        @item.valid?
+        expect(@item.errors.full_messages).to include "Price は半角数字で入力してください"
+      end
+
       it "priceが300円未満では登録できない" do
       @item.price = "299"  
       @item.valid?
