@@ -33,7 +33,7 @@ require 'rails_helper'
       end
 
       it "nameの文字数が41文字以上だと登録できない" do
-      @item.name = Faker::Lorem.characters(41)
+      @item.name = Faker::Lorem.characters(number:41)
       @item.valid?
       expect(@item.errors.full_messages).to include "Name 商品名が長すぎます"
       end
@@ -45,7 +45,7 @@ require 'rails_helper'
       end
 
       it "explanationが1001文字以上では登録できない" do
-      @item.explanation = Faker::Lorem.characters(1001)
+      @item.explanation = Faker::Lorem.characters(number: 1001)
       @item.valid?
       expect(@item.errors.full_messages).to include "Explanation 商品の説明文が長すぎます"
       end
