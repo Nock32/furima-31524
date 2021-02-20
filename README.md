@@ -1,3 +1,4 @@
+
 ## usersテーブル
 |Column            |Type     |Options                 |
 |----------------- |---------|------------------------|
@@ -12,7 +13,7 @@
 ### Association
 - has_many :items
 - has_many :comments
-- has_many :purchases
+- has_many :orders
 
 ## itemsテーブル
 |Column              |Type     |Options           |
@@ -29,7 +30,7 @@
 ### Association
 - belongs_to :user
 - has_many   :comments
-- has_one    :purchase
+- has_one    :order
 
 ## addressesテーブル
 |Column            |Type     |Options           |
@@ -40,9 +41,9 @@
 |block_number      |string   |null: false       |
 |building_name     |string   |                  |
 |phone_number      |string   |null: false       |
-|purchase          |references|foreign_key: true|
+|order             |references|foreign_key: true|
 ### Association
-- belongs_to :purchase
+- belongs_to :order
 
 ## commentsテーブル
 |Column|Type      |Options          |
@@ -54,7 +55,7 @@
 - belongs_to :user
 - belongs_to :item
 
-## purchasesテーブル
+## ordersテーブル
 |Column|Type      |Options          |
 |------|--------- |-----------------|
 |user  |references|foreign_key: true|
