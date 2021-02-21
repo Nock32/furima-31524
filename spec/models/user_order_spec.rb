@@ -12,6 +12,11 @@ RSpec.describe UserOrder, type: :model do
 
     context "購入者入力内容に問題が有る場合" do
 
+      it "Tokenが空だと登録できない" do
+        @user_order.token = nil
+        @user_order.valid?
+        expect(@user_order.errors.full_messages).to include "Token can't be blank"
+      end
       it "郵便番号が空だと登録できない" do
         @user_order.zip_number = nil
         @user_order.valid?
@@ -49,7 +54,7 @@ RSpec.describe UserOrder, type: :model do
       it "電話番号を11桁以上入力すると登録できない" do
         @user_order.phone_number = 111111111111
         @user_order.valid?
-        expect(@user_order.errors.full_messages).to include "Phone number を正しい郵便番号を記入してください"
+        expect(@user_order.errors.full_messages).to include "Phone number を正しい電話番号を記入してください"
       end
 
       it "user_idが空だと登録できない" do
