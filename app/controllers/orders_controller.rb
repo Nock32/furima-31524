@@ -8,7 +8,14 @@ class OrdersController < ApplicationController
 
   def index
     @user_order = UserOrder.new
-    redirect_to root_path unless current_user.id != @item.user_id
+    @order = Order.all
+    if current_user.id == @item.user_id
+      redirect_to root_path
+    elsif @order.exists?(item_id: @item.id)
+      redirect_to root_path
+    else
+      render :index
+    end
   end
 
   def create
