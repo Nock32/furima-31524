@@ -12,6 +12,10 @@ RSpec.describe UserOrder, type: :model do
       it '必要事項を入力すれば登録できる' do
         expect(@user_order).to be_valid
       end
+      it '建物名が無くても登録できる' do
+        @user_order.building_name= nil
+        expect(@user_order).to be_valid
+      end
     end
 
     context '購入者入力内容に問題が有る場合' do
@@ -29,6 +33,11 @@ RSpec.describe UserOrder, type: :model do
         @user_order.zip_number = 1_111_111
         @user_order.valid?
         expect(@user_order.errors.full_messages).to include 'Zip number is invalid. Include hyphen(-)'
+      end
+      it 'dispatch_area_idは1の場合登録できない' do
+        @user_order.dispatch_area_id  = 1
+        @user_order.valid?
+        expect(@user_order.errors.full_messages).to include 'Dispatch area must be other than 1'
       end
 
       it '都道府県が空だと登録できない' do
@@ -58,6 +67,11 @@ RSpec.describe UserOrder, type: :model do
         @user_order.phone_number = 111_111_111_111
         @user_order.valid?
         expect(@user_order.errors.full_messages).to include 'Phone number を正しい電話番号を記入してください'
+      end
+      it '電話番号は英数混合では登録できないこと' do
+        @user_order.phone_number = 'aaaa1111'
+        @user_order.valid?
+        expect(@user_order.errors.full_messages).to include 'Phone number is invalid. Input half-width characters.'
       end
 
       it 'user_idが空だと登録できない' do
