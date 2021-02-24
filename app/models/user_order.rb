@@ -13,6 +13,7 @@ class UserOrder
     validates :item_id
     validates :token
   end
+  validates :dispatch_area_id, numericality: { other_than: 1 }
   validates :phone_number, length: { maximum: 11, too_long: 'を正しい電話番号を記入してください' }
 
   def save
