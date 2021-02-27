@@ -4,8 +4,7 @@ class OrdersController < ApplicationController
   
   def index
     @user_order = UserOrder.new
-    @order = @item.order
-    if current_user.id == @item.user_id || @order.exists?(item_id: @item.id)
+    if current_user.id == @item.user_id || @item.order != nil
       redirect_to root_path
     else
       render :index
