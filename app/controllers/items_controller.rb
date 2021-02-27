@@ -1,14 +1,9 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user! , except: [:index ,:show] 
-  before_action :set_item , only: [:show, :edit, :update, :destroy]
-  
-  
-  def set_item
-    @item = Item.find(params[:id])
-  end
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @item = Item.all.order("created_at DESC")
+    @item = Item.all.order('created_at DESC')
     @item.includes(:item)
   end
 
@@ -21,18 +16,20 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    unless current_user.id == @item.user_id
+    if current_user.id != @item.user_id || @item.order != nil
       redirect_to root_path
-     end
+    else
+      render :edit
+    end
   end
 
-   def update
-     if @item.update(item_params)
+  def update
+    if @item.update(item_params)
       redirect_to item_path
-     else
-       render :edit
-     end
-   end
+    else
+      render :edit
+    end
+  end
 
   def create
     @item = Item.new(item_params)
@@ -47,10 +44,16 @@ class ItemsController < ApplicationController
     @item.destroy if current_user.id == @item.user_id
     redirect_to root_path
   end
-   
+
   private
 
   def item_params
-    params.require(:item).permit(:image,:name, :explanation,:category_id, :status_id,:shipping_charge_id,:dispatch_area_id,:shipping_duration_id,:price).merge(user_id: current_user.id)
+    params.require(:item).permit(:image, :name, :explanation, :category_id, :status_id, :shipping_charge_id, :dispatch_area_id,
+                                 :shipping_duration_id, :price).merge(user_id: current_user.id)
   end
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
 end
